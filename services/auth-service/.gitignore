@@ -1,0 +1,6 @@
+persistence/
+.vscode/
+compose.env
+.env*
+keys
+auth-service.env-contract

@@ -1,0 +1,10 @@
+persistence
+.DS_Store
+.env
+.env.dev
+traefik-data/
+database_backup*
+minio-data
+telegram-logs/
+.vscode
+compose.env

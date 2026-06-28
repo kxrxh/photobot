@@ -1,0 +1,14 @@
+.venv
+.env
+.env.local
+compose.env
+.pytest_cache
+__pycache__
+.ruff_cache
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+*.pyzw

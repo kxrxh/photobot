@@ -1,0 +1,28 @@
+# Local Postgres for ClassificationService (host port 5433).
+name: classification-service-dev
+
+services:
+  database:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: classification_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./persistence/:/docker-entrypoint-initdb.d
+      - ./persistence/postgres/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d classification_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+networks:
+  photobot_dev:
+    driver: bridge

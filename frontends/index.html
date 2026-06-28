@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <!-- MAX: https://dev.max.ru/docs/webapps/bridge — avoid calling WebApp.ready() here (no host transport outside the WebView). MaxWrapper calls ready() after a real session is detected. -->
+    <script src="https://st.max.ru/js/max-web-app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoffeeBot</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+version: "2"
+
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+    - golines
+linters:
+  exclusions:
+    rules:
+      - path: "internal/middleware/rate_limit\\.go"
+        linters:
+          - contextcheck
+        text: "Non-inherited new context"
+      - path: "internal/reports/pdf\\.go"
+        linters:
+          - contextcheck
+        text: "Non-inherited new context"
+      - path: "internal/render/|internal/view/|cmd/dummypdf/"
+        linters:
+          - gosec
+        text: "G203"
+      - path: "internal/render/|cmd/dummypdf/"
+        linters:
+          - gosec
+        text: "G304"
+      - path: "internal/requests/service\\.go"
+        linters:
+          - contextcheck
+        text: "Non-inherited new context"
+      - linters:
+          - gosec
+        text: "G704"
+      - linters:
+          - gosec
+        text: "G115"
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - misspell
+    - unconvert
+    - unparam
+    - gocritic
+    - contextcheck
+    - gosec
+    - usestdlibvars
+    - thelper
+    - iface
+    - intrange
+    - nakedret
+    - perfsprint
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

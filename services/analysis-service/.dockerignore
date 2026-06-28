@@ -1,0 +1,22 @@
+# Git
+.git
+.gitignore
+
+# IDE and editor
+.vscode
+.idea
+.cursor
+
+# Local data and secrets
+persistence/
+compose.env
+.env*
+analysis-service.env-contract
+
+# Docker
+.dockerignore
+compose*.yml
+
+# Documentation
+*.md
+README*

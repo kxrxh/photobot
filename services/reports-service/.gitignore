@@ -1,0 +1,44 @@
+# Go
+bin/
+vendor/
+
+# Environment
+.env
+.env.*
+!.env.example
+compose.env
+
+# Test coverage
+coverage/
+*.lcov
+
+# Logs
+logs/
+*.log
+
+# Runtime / temp
+tmp/
+temp/
+.cache/
+*.pid
+*.seed
+*.pid.lock
+
+# Generated reports
+caliber/
+local-preview/
+preview-assets/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db

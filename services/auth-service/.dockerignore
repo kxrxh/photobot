@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+
+# IDE and editor
+.vscode
+.idea
+.cursor
+.DS_Store
+
+# Local data and secrets
+persistence/
+compose.env
+compose.tempalte.env
+.env*
+keys
+auth-service.env-contract
+
+# CI and tooling
+.github
+Makefile
+.golangci.yaml
+
+# Docker
+Dockerfile
+.dockerignore
+compose*.yml
+
+# Documentation
+*.md
+README*

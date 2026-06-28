@@ -1,0 +1,116 @@
+# Local stack: requests DB, Redis, RabbitMQ, MinIO (general + analysis-images).
+# Ports: Postgres 5435, Redis 6380, Rabbit 5672/15672, MinIO 9003/9004 and 9090/9092.
+name: analysis-service-dev
+
+services:
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9003:9000"
+      - "9004:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+  minio-analysis:
+    image: minio/minio:latest
+    hostname: minio-analysis
+    ports:
+      - "9090:9000"
+      - "9092:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_images_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+  redis:
+    image: redis:8.4
+    ports:
+      - "6380:6379"
+    command: redis-server --requirepass devpassword
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "devpassword", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+  request_db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: iMq2jck4tDMWy9md
+      POSTGRES_DB: requests
+    ports:
+      - "5435:5432"
+    volumes:
+      - requests_db_data:/var/lib/postgresql/data
+      - ./databases/requests/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d requests"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+volumes:
+  minio_data:
+  minio_images_data:
+  rabbitmq_data:
+  requests_db_data:
+  redis_data:
+
+networks:
+  photobot_dev:
+    driver: bridge

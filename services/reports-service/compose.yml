@@ -1,0 +1,87 @@
+services:
+  reports:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    shm_size: "512m"
+    ports:
+      - "${PORT:-6050}:${PORT:-6050}"
+    env_file:
+      - compose.env
+    environment:
+      - PORT=${PORT:-6050}
+      - TRUST_PROXY=${TRUST_PROXY:-false}
+      - ANALYSIS_SERVICE_HOST=${ANALYSIS_SERVICE_HOST:-}
+      - AUTH_SERVICE_URL=${AUTH_SERVICE_URL:-}
+      - REPORTS_SERVICE_ID=${REPORTS_SERVICE_ID:-}
+      - REPORTS_SERVICE_SECRET=${REPORTS_SERVICE_SECRET:-}
+      - JWKS_REFRESH_INTERVAL=${JWKS_REFRESH_INTERVAL:-1h}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379/0}
+      - RATE_LIMIT_GLOBAL_MAX=${RATE_LIMIT_GLOBAL_MAX:-200}
+      - RATE_LIMIT_GLOBAL_WINDOW=${RATE_LIMIT_GLOBAL_WINDOW:-1m}
+      - RATE_LIMIT_GENERATE_MAX=${RATE_LIMIT_GENERATE_MAX:-15}
+      - RATE_LIMIT_GENERATE_WINDOW=${RATE_LIMIT_GENERATE_WINDOW:-1h}
+      - RATE_LIMIT_DOWNLOAD_MAX=${RATE_LIMIT_DOWNLOAD_MAX:-120}
+      - RATE_LIMIT_DOWNLOAD_WINDOW=${RATE_LIMIT_DOWNLOAD_WINDOW:-1m}
+      - MINIO_HOST=${MINIO_HOST:-minio}
+      - MINIO_PORT=${MINIO_PORT:-9000}
+      - MINIO_USE_SSL=${MINIO_USE_SSL:-false}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+      - MINIO_BUCKET=${MINIO_BUCKET:-reports}
+      - MINIO_PUBLIC_BASE_URL=${MINIO_PUBLIC_BASE_URL:-}
+      - TEMPLATES_DIR=${TEMPLATES_DIR:-./templates}
+      - REPORT_PACK_HMAC_SECRET=${REPORT_PACK_HMAC_SECRET:-}
+      - REPORT_PACK_TTL_SECONDS=${REPORT_PACK_TTL_SECONDS:-604800}
+      - REPORT_CSV_FORMAT_VERSION=${REPORT_CSV_FORMAT_VERSION:-1.0-go}
+      - REPORT_PDF_FORMAT_VERSION=${REPORT_PDF_FORMAT_VERSION:-1.0-go}
+    depends_on:
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:$$PORT/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+      - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL:-}
+    volumes:
+      - minio_data:/data
+    hostname: minio
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    ports:
+      - "${MINIO_PUBLISHED_PORT:-9100}:9000"
+      - "${MINIO_CONSOLE_PUBLISHED_PORT:-9102}:9001"
+
+  redis:
+    image: redis:8-alpine
+    hostname: redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  minio_data:
+  redis_data:

@@ -1,0 +1,58 @@
+{
+  "name": "photobot",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "bunx @biomejs/biome lint src",
+    "format": "bunx @biomejs/biome format --write src",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "knip": "knip --dependencies"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@tanstack/react-query": "^5.101.0",
+    "@tanstack/react-router": "^1.170.15",
+    "@tma.js/bridge": "^2.3.0",
+    "@tma.js/types": "^1.0.2",
+    "framer-motion": "^12.40.0",
+    "jose": "^6.2.3",
+    "ky": "^1.14.3",
+    "leaflet": "^1.9.4",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-icons": "^5.6.0",
+    "react-intersection-observer": "^9.16.0",
+    "react-leaflet": "^5.0.0",
+    "recharts": "^3.8.1",
+    "sonner": "^2.0.7",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.7",
+    "@tanstack/router-plugin": "^1.168.18",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/leaflet": "^1.9.21",
+    "@types/node": "^24.13.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react-swc": "^4.3.1",
+    "@vitest/coverage-v8": "^4.1.8",
+    "daisyui": "^5.5.23",
+    "jsdom": "^29.1.1",
+    "knip": "^6.16.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.5",
+    "vitest": "^4.1.8"
+  },
+  "trustedDependencies": [
+    "@swc/core"
+  ]
+}

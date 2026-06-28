@@ -1,0 +1,103 @@
+{{define "body"}}
+<header class="report-header"><div class="report-header-main"><div class="report-header-lead">
+<img class="report-logo" src="{{.Header.LogoSrc}}" alt="Логотип"><div class="report-header-titles"><div class="report-header-title">Анализ</div></div>
+{{if .Header.ShowDownloads}}<div class="report-header-inline-actions"><div class="report-downloads">
+{{if .Header.ObjectArchiveURL}}<a class="report-download-btn report-download-btn--primary" href="{{.Header.ObjectArchiveURL}}{{.Header.ReportPackQuery}}" title="Скачать архив изображений объектов"><svg class="report-download-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM96 48c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm0 64c0-8.8 7.2-16 16-16h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16zm-6.3 71.8c3.7-14 16.4-23.8 30.9-23.8h14.8c14.5 0 27.2 9.7 30.9 23.8l23.5 88.2c1.4 5.4 2.1 10.9 2.1 16.4c0 35.2-28.8 63.7-64 63.7s-64-28.5-64-63.7c0-5.5 .7-11.1 2.1-16.4l23.5-88.2zM112 336c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16H112z"/></svg><span>Объекты</span></a>{{end}}
+{{if .Header.CsvURL}}<a class="report-download-btn report-download-btn--secondary" href="{{.Header.CsvURL}}{{.Header.ReportPackQuery}}" title="Скачать данные в формате CSV"><svg class="report-download-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M0 64C0 28.7 28.7 0 64 0H224V128c0 17.7 14.3 32 32 32H384V304H176c-35.3 0-64 28.7-64 64V512H64c-35.3 0-64-28.7-64-64V64zm384 64H256V0L384 128zM200 352h16c22.1 0 40 17.9 40 40v8c0 8.8-7.2 16-16 16s-16-7.2-16-16v-8c0-4.4-3.6-8-8-8H200c-4.4 0-8 3.6-8 8v80c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-8c0-8.8 7.2-16 16-16s16 7.2 16 16v8c0 22.1-17.9 40-40 40H200c-22.1 0-40-17.9-40-40V392c0-22.1 17.9-40 40-40zm133.1 0H368c8.8 0 16 7.2 16 16s-7.2 16-16 16H333.1c-7.2 0-13.1 5.9-13.1 13.1c0 5.2 3 9.9 7.8 12l37.4 16.6c16.3 7.2 26.8 23.4 26.8 41.2c0 24.9-20.2 45.1-45.1 45.1H304c-8.8 0-16-7.2-16-16s7.2-16 16-16h42.9c7.2 0 13.1-5.9 13.1-13.1c0-5.2-3-9.9-7.8-12l-37.4-16.6c-16.3-7.2-26.8-23.4-26.8-41.2c0-24.9 20.2-45.1 45.1-45.1zm98.9 0c8.8 0 16 7.2 16 16v31.6c0 23 5.5 45.6 16 66c10.5-20.3 16-42.9 16-66V368c0-8.8 7.2-16 16-16s16 7.2 16 16v31.6c0 34.7-10.3 68.7-29.6 97.6l-5.1 7.7c-3 4.5-8 7.1-13.3 7.1s-10.3-2.7-13.3-7.1l-5.1-7.7c-19.3-28.9-29.6-62.9-29.6-97.6V368c0-8.8 7.2-16 16-16z"/></svg><span>CSV</span></a>{{end}}
+</div></div>{{end}}
+</div><div class="report-header-qr"><div class="qr-code-container"><span id="report-qr-caliber-placeholder"></span></div><div class="qr-label">№ {{.Header.AnalysisNo}}</div></div><div class="report-header-meta-row"><div class="report-header-meta-top"><div class="report-header-meta-main">
+<span class="report-header-meta-item">Дата анализа: <strong>{{.Header.Date}}{{if .Header.TimePart}} · {{.Header.TimePart}}{{end}}</strong></span><span class="report-header-meta-item">Пользователь: <strong>{{if eq .Header.UserID -1}}-{{else}}{{.Header.UserID}}{{end}}</strong></span><span class="report-header-meta-item">Бот: <a href="{{.Header.BotLink}}">{{.Header.BotLink}}</a></span></div></div><div class="report-header-company-line"><span class="report-header-meta-item report-header-meta-item--company">Компания: <strong>{{.Header.Company}}</strong></span></div></div></div></header>
+
+<div class="report-summary"><div class="report-summary-top">
+<span class="report-summary-item"><span class="report-k">Продукт</span><span class="report-summary-item-value">{{if .Summary.ProductMissing}}<span class="report-missing">—</span>{{else}}{{.Summary.Product}}{{end}}</span></span>
+<span class="report-summary-item"><span class="report-k">Сорт</span><span class="report-summary-item-value">{{if .Summary.SortMissing}}<span class="report-missing">—</span>{{else}}{{.Summary.Sort}}{{end}}</span></span>
+<span class="report-summary-item"><span class="report-k">Год урожая</span><span class="report-summary-item-value">2025</span></span></div>
+<div class="report-summary-top report-summary-top-secondary">
+<span class="report-summary-item"><span class="report-k">Репродукция</span><span class="report-summary-item-value">{{if .Summary.ReproductionMissing}}<span class="report-missing">—</span>{{else}}{{.Summary.Reproduction}}{{end}}</span></span>
+<span class="report-summary-item"><span class="report-k">Всхожесть</span><span class="report-summary-item-value">{{if .Summary.GerminationMissing}}<span class="report-missing">—</span>{{else}}<strong>{{.Summary.Germination}}</strong>{{end}}</span></span>
+<span class="report-summary-item"><span class="report-k">Объектов</span><span class="report-summary-item-value"><strong>{{.Summary.Objects}}</strong></span></span></div>
+<div class="report-summary-dims"><span class="report-k">Средние, мм</span><span class="report-dim-sep">|</span>
+<span>L {{if .Summary.LenMissing}}<span class="report-missing">—</span>{{else}}<span class="report-dim-inline">{{.Summary.Len}}</span>{{end}}</span><span class="report-dim-sep">|</span><span>W {{if .Summary.WidthMissing}}<span class="report-missing">—</span>{{else}}<span class="report-dim-inline">{{.Summary.Width}}</span>{{end}}{{if .Summary.ShowThick}}</span><span class="report-dim-sep">|</span><span>T <span class="report-dim-inline">{{.Summary.Thick}}</span></span>{{else}}</span>{{end}}</div>
+{{if .Summary.ShowExtra}}<div class="report-summary-extra">
+{{if .Summary.ShowSeeds50}}<span class="report-k">Образцов на 50 г:</span> {{.Summary.Seeds50}}{{end}}{{if and .Summary.ShowSeeds50 (or .Summary.ShowCount50 .Summary.ShowBroken)}} · {{end}}
+{{if .Summary.ShowCount50}}<span class="report-k">В 50 г:</span> {{.Summary.Count50}}{{end}}{{if and (or .Summary.ShowSeeds50 .Summary.ShowCount50) .Summary.ShowBroken}} · {{end}}
+{{if .Summary.ShowBroken}}<span class="report-k">{{.Summary.BrokenLabel}}</span> {{.Summary.BrokenPers}}%{{end}}
+</div>{{end}}
+{{if .Summary.RHSMissing}}<div class="report-rhs-line"><span class="report-k">RHS</span><span class="report-missing">—</span></div>
+{{else}}{{if .Summary.RGBOK}}<div class="report-rhs-line"><span class="report-k">RHS</span><span class="report-rhs-name">{{.Summary.ColorRHS}}</span><span class="report-mono">RGB {{.Summary.RGBR}}, {{.Summary.RGBG}}, {{.Summary.RGBB}}</span><span class="report-swatch-inline" style="background-color: rgb({{.Summary.RGBR}},{{.Summary.RGBG}},{{.Summary.RGBB}});"></span></div>
+{{else}}<div class="report-rhs-line"><span class="report-k">RHS</span><span class="report-rhs-name">{{.Summary.ColorRHS}}</span><span class="report-swatch-inline report-swatch-missing"></span></div>{{end}}{{end}}
+</div>
+
+{{if .Mass}}<div class="mass-cards-grid">
+{{if .Mass.Sample}}<article class="mass-stat-card"><h3 class="mass-stat-card__title">Масса пробы</h3><div class="mass-stat-rows">
+<div class="mass-stat-row"><span class="mass-stat-k">Факт</span> <span class="mass-stat-v">{{.Mass.Sample.Fact}}</span></div>
+<div class="mass-stat-row"><span class="mass-stat-k">Расчёт</span> <span class="mass-stat-v">{{.Mass.Sample.Calc}}</span></div>
+</div></article>{{end}}
+{{if .Mass.Grains1000}}<article class="mass-stat-card"><h3 class="mass-stat-card__title">Масса 1000 зерен</h3><div class="mass-stat-rows">
+<div class="mass-stat-row"><span class="mass-stat-k">Факт</span> <span class="mass-stat-v">{{.Mass.Grains1000.Fact}}</span></div>
+<div class="mass-stat-row"><span class="mass-stat-k">Расчёт</span> <span class="mass-stat-v">{{.Mass.Grains1000.Calc}}</span></div>
+</div></article>{{end}}
+{{if .Mass.Liter}}<article class="mass-stat-card"><h3 class="mass-stat-card__title">Натура (Масса 1 литра)</h3><div class="mass-stat-rows">
+<div class="mass-stat-row"><span class="mass-stat-k">Факт</span> <span class="mass-stat-v">{{.Mass.Liter.Fact}}</span></div>
+<div class="mass-stat-row"><span class="mass-stat-k">Расчёт</span> <span class="mass-stat-v">{{.Mass.Liter.Calc}}</span></div>
+</div></article>{{end}}
+</div>{{end}}
+
+{{if .SingleClass}}<div class="classification classification--single"><h2 class="section-title"><svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M345 39.1L472.8 168.4c52.4 53 52.4 138.2 0 191.2L360.8 472.9c-9.3 9.4-24.5 9.5-33.9 .2s-9.5-24.5-.2-33.9L438.6 325.9c33.9-34.3 33.9-89.4 0-123.7L310.9 72.9c-9.3-9.4-9.2-24.6 .2-33.9s24.6-9.2 33.9 .2zM0 229.5V80C0 53.5 21.5 32 48 32H197.5c17 0 33.3 6.7 45.3 18.7l168 168c25 25 25 65.5 0 90.5L277.3 442.7c-25 25-65.5 25-90.5 0l-168-168C6.7 262.7 0 246.5 0 229.5zM144 144a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>Статистика по основному классу</h2>
+<p class="classification-lead">Объектов основного класса: <strong>{{.SingleClass.PrimaryCount}}</strong>. <span class="classification-note">* На основе расчётов</span></p><div class="class-details">
+{{range .SingleClass.Details}}<section class="class-detail">
+{{range .Tables}}<div class="class-metric-block"><h4 class="class-metric-heading">{{.Heading}}</h4><table class="class-metric-table"><thead><tr><th>Параметр</th><th>Мин.</th><th>Макс.</th><th>Средн.</th><th>Медиана</th></tr></thead><tbody>
+{{range .Rows}}<tr><td>{{.Label}}</td><td>{{.Min}}</td><td>{{.Max}}</td><td>{{.Avg}}</td><td>{{.Med}}</td></tr>{{end}}
+</tbody></table></div>{{end}}
+</section>{{end}}
+</div></div>{{end}}
+
+{{if .ShowSingleReps}}<div class="representative-section representative-section--single"><h2 class="section-title"><svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M448 256A192 192 0 1 0 64 256a192 192 0 1 0 384 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 80a80 80 0 1 0 0-160 80 80 0 1 0 0 160zm0-224a144 144 0 1 1 0 288 144 144 0 1 1 0-288zM224 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>Типичные представители</h2><p class="representative-help">Показаны характерные объекты для единственного класса в выборке. Чем меньше значение <strong>d</strong>, тем объект ближе к «типичному» профилю класса.</p><div class="representative-groups-grid">
+{{range .SingleReps}}<section class="representative-group"><div class="representative-group__header"><h3 class="representative-group__title">{{.Title}}</h3><span class="representative-group__meta">{{.TotalObjects}} объектов в классе · показаны самые типичные примеры</span></div><div class="representative-grid">
+{{range .Cards}}<article class="representative-card"><figure class="representative-card__media">
+{{if .HasImage}}<img class="representative-card__img" src="{{.ImageDataURL}}" alt="Объект {{.ObjectID}}">{{else}}<div class="representative-card__missing">Изобр. недоступно</div>{{end}}
+</figure><div class="representative-card__meta"><span class="representative-card__value">Отклонение d: {{.Value}}</span></div></article>{{end}}
+</div></section>{{end}}
+</div></div>{{end}}
+
+{{if .MultiClass}}<div class="classification"><h2 class="section-title"><svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M345 39.1L472.8 168.4c52.4 53 52.4 138.2 0 191.2L360.8 472.9c-9.3 9.4-24.5 9.5-33.9 .2s-9.5-24.5-.2-33.9L438.6 325.9c33.9-34.3 33.9-89.4 0-123.7L310.9 72.9c-9.3-9.4-9.2-24.6 .2-33.9s24.6-9.2 33.9 .2zM0 229.5V80C0 53.5 21.5 32 48 32H197.5c17 0 33.3 6.7 45.3 18.7l168 168c25 25 25 65.5 0 90.5L277.3 442.7c-25 25-65.5 25-90.5 0l-168-168C6.7 262.7 0 246.5 0 229.5zM144 144a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>Классификация</h2>
+<p class="classification-lead">Всего объектов в выборке: <strong>{{.MultiClass.TotalObjects}}</strong>. <span class="classification-note">* На основе расчётов</span></p>
+{{if .MultiClass.Pills}}<h3 class="classification-subheading">Распределение по классам</h3><div class="classification-pills-panel"><div class="class-pills">
+{{range .MultiClass.Pills}}<span class="class-pill"><span class="class-pill-name">{{.Label}}</span><span class="class-pill-sep"> — </span><span class="class-pill-count">{{.Count}}</span></span>{{end}}
+</div></div>{{end}}
+<h3 class="classification-subheading classification-subheading--tight-top">Типичные представители</h3><p class="representative-help">Здесь показаны наиболее характерные объекты для каждого класса. Мы выбираем их из центральной части распределения (Q1–Q3), чтобы отсечь редкие выбросы. Чем меньше значение <strong>d</strong>, тем объект ближе к «типичному» профилю класса.</p>
+{{if .MultiClass.HasReps}}<div class="representative-groups-grid">
+{{range .MultiClass.Reps}}<section class="representative-group"><div class="representative-group__header"><h3 class="representative-group__title">{{.Title}}</h3><span class="representative-group__meta">{{.TotalObjects}} объектов в классе · показаны самые типичные примеры</span></div><div class="representative-grid">
+{{range .Cards}}<article class="representative-card"><figure class="representative-card__media">
+{{if .HasImage}}<img class="representative-card__img" src="{{.ImageDataURL}}" alt="Объект {{.ObjectID}}">{{else}}<div class="representative-card__missing">Изобр. недоступно</div>{{end}}
+</figure><div class="representative-card__meta"><span class="representative-card__value">Отклонение d: {{.Value}}</span></div></article>{{end}}
+</div></section>{{end}}
+</div>{{else}}<div class="missing-data">Типичные представители по классам не рассчитаны</div>{{end}}
+{{if .MultiClass.Details}}<h3 class="classification-subheading classification-subheading--tight-top">Показатели по классам</h3><div class="class-details">
+{{range .MultiClass.Details}}<section class="class-detail">{{if .ShowTitleRow}}<div class="class-detail-title-row"><span class="class-detail-title">{{.Title}}</span><span class="class-detail-count">{{.Count}} объ.</span></div>{{end}}
+{{range .Tables}}<div class="class-metric-block"><h4 class="class-metric-heading">{{.Heading}}</h4><table class="class-metric-table"><thead><tr><th>Параметр</th><th>Мин.</th><th>Макс.</th><th>Средн.</th><th>Медиана</th></tr></thead><tbody>
+{{range .Rows}}<tr><td>{{.Label}}</td><td>{{.Min}}</td><td>{{.Max}}</td><td>{{.Avg}}</td><td>{{.Med}}</td></tr>{{end}}
+</tbody></table></div>{{end}}
+</section>{{end}}
+</div>{{end}}
+</div>{{end}}
+
+<div class="charts-section"><h2 class="section-title"><svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M32 32c17.7 0 32 14.3 32 32V400c0 8.8 7.2 16 16 16H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H80c-44.2 0-80-35.8-80-80V64C0 46.3 14.3 32 32 32zm96 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-192 0c-17.7 0-32-14.3-32-32zm32 64H288c17.7 0 32 14.3 32 32s-14.3 32-32 32H160c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 96H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H160c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>Графики распределения</h2><div class="charts-container">
+{{range .ChartsP1}}{{if .HasSVG}}<div class="chart-item" role="img" aria-label="{{.Alt}}">{{.SVG}}</div>{{end}}{{end}}
+</div></div><div class="charts-section charts-section-page2"><h2 class="section-title"><svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M32 32c17.7 0 32 14.3 32 32V400c0 8.8 7.2 16 16 16H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H80c-44.2 0-80-35.8-80-80V64C0 46.3 14.3 32 32 32zm96 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-192 0c-17.7 0-32-14.3-32-32zm32 64H288c17.7 0 32 14.3 32 32s-14.3 32-32 32H160c-17.7 0-32-14.3-32-32s14.3-32 32-32zm0 96H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H160c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>Площадь и масса</h2><div class="charts-container">
+{{range .ChartsP2}}{{if .HasSVG}}<div class="chart-item" role="img" aria-label="{{.Alt}}">{{.SVG}}</div>{{end}}{{end}}
+</div></div>
+
+<div class="photo-section analysis-images"><h2 class="section-title"><svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zM323.8 202.5c-4.5-6.6-11.9-10.5-19.8-10.5s-15.4 3.9-19.8 10.5l-87 127.6L170.7 297c-4.6-5.7-11.5-9-18.7-9s-14.2 3.3-18.7 9l-64 80c-5.8 7.2-6.9 17.1-2.9 25.4s12.4 13.6 21.6 13.6h96 32H424c8.9 0 17.1-4.9 21.2-12.8s3.6-17.4-1.4-24.7l-120-176zM112 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"/></svg>Изображения анализа</h2>
+{{if .Images.HasImages}}<div class="images-grid">
+{{range .Images.Cards}}<article class="image-card"><figure class="image-card__media"><img class="image-card__img" src="{{.URL}}" alt="{{.Alt}}" onclick="window.open('{{.URL}}')"></figure><footer class="image-card__footer"><div class="image-card__meta"><span class="image-card__title">Снимок {{.DisplayIndex}}</span></div>
+{{if .HasImageBase}}<p class="image-card__dl-label">Скачать файл</p><div class="image-card__actions">
+<a href="{{.ImageBaseURL}}/source/{{.DownloadIdx}}{{.Query}}" class="image-download-btn image-download-btn--original">Скачать оригинал</a>
+<a href="{{.ImageBaseURL}}/analysis/{{.DownloadIdx}}{{.Query}}" class="image-download-btn image-download-btn--processed">Скачать обработанное</a>
+</div>{{else}}<p class="image-card__dl-label">Скачать файл</p><div class="image-card__actions image-card__actions--single">
+<a href="{{.URL}}" download="analysis_image_{{.DisplayIndex}}.png" target="_blank" class="image-download-btn image-download-btn--processed">Скачать обработанное</a>
+</div>{{end}}
+</footer></article>{{end}}
+</div>{{else}}<div class="placeholder"><div class="placeholder-text">Изображения анализа отсутствуют</div></div>{{end}}
+</div>
+{{end}}

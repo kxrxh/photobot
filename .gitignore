@@ -1,0 +1,53 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+.cursor/
+
+# Environment & secrets
+.env
+.env.*
+!*.env.example
+!compose.*.env.example
+!compose.template.env
+!env.example
+compose.env
+keys/
+*.env-contract
+
+# Go
+bin/
+vendor/
+coverage/
+*.lcov
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+coverage/
+
+# Runtime / local data
+persistence/
+traefik-data/
+minio-data/
+telegram-logs/
+local-preview/
+preview-assets/
+caliber/
+logs/
+*.log
+tmp/
+temp/
+.cache/

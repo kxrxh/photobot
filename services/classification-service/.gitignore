@@ -1,0 +1,8 @@
+persistence/
+compose.env
+.env*
+.vscode
+.DS_Store
+*.pyc
+classification-service.env-contract
+

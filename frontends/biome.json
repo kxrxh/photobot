@@ -1,0 +1,97 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.7/schema.json",
+	"vcs": {
+		"enabled": false,
+		"clientKind": "git",
+		"useIgnoreFile": false
+	},
+	"overrides": [
+		{
+			"includes": ["src/**/*.gen.ts"],
+			"formatter": { "enabled": false },
+			"linter": { "enabled": false },
+			"assist": { "enabled": false }
+		},
+		{
+			"includes": ["src/**/*.d.ts"],
+			"linter": {
+				"rules": {
+					"correctness": {
+						"noUnusedVariables": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["src/index.css"],
+			"linter": {
+				"rules": {
+					"complexity": { "noImportantStyles": "off" },
+					"correctness": { "noUnknownProperty": "off" },
+					"suspicious": { "noUnknownAtRules": "off" }
+				}
+			}
+		}
+	],
+	"files": {
+		"ignoreUnknown": false,
+		"includes": ["src/**/*.{js,jsx,ts,tsx,json,css}"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 100,
+		"lineEnding": "lf"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"correctness": {
+				"noUnusedVariables": "error",
+				"useExhaustiveDependencies": "warn"
+			},
+			"style": {
+				"useTemplate": "error",
+				"useConst": "error"
+			},
+			"suspicious": {
+				"noExplicitAny": "warn"
+			},
+			"complexity": {
+				"noExcessiveCognitiveComplexity": "off",
+				"noVoid": "off"
+			},
+			"performance": {
+				"noDelete": "error"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"trailingCommas": "es5",
+			"semicolons": "asNeeded"
+		},
+		"globals": ["$RefreshReg$", "$RefreshIntercept$"]
+	},
+	"json": {
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"css": {
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"recommended": true,
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	}
+}

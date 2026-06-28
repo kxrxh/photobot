@@ -1,0 +1,50 @@
+name: reports-service-dev
+
+services:
+  redis:
+    image: redis:8-alpine
+    hostname: redis-reports-dev
+    ports:
+      - "6390:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - reports_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+  minio:
+    image: minio/minio:latest
+    hostname: minio-reports-dev
+    ports:
+      - "9010:9000"
+      - "9011:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - reports_minio_data:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - photobot_dev
+
+volumes:
+  reports_minio_data:
+  reports_redis_data:
+
+networks:
+  photobot_dev:
+    driver: bridge

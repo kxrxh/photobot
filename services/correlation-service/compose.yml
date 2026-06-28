@@ -1,0 +1,31 @@
+services:
+  correlation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-6021}:${PORT:-6021}"
+    env_file:
+      - compose.env
+    environment:
+      - PORT=${PORT:-6021}
+      - ANALYSIS_SERVICE_URL=${ANALYSIS_SERVICE_URL:-http://localhost:8030/api/v1/}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import os,urllib.request; urllib.request.urlopen(f'http://127.0.0.1:{os.getenv(\"PORT\", \"6021\")}/health', timeout=2)",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - correlation_network
+
+networks:
+  correlation_network:
+    driver: bridge

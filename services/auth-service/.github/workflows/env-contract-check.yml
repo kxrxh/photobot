@@ -1,0 +1,41 @@
+name: Env contract check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  contract-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+
+      - name: Export env contract
+        run: go run ./cmd/export-env-contract > auth-service.env-contract
+
+      - name: Ensure infra checkout token exists
+        run: |
+          if [ -z "${{ secrets.GIT_CLONE_TOKEN }}" ]; then
+            echo "::error::Missing GIT_CLONE_TOKEN secret. It must have read access to CsortTeam/photobot-infra."
+            exit 1
+          fi
+
+      - name: Checkout photobot-infra
+        uses: actions/checkout@v5
+        with:
+          repository: CsortTeam/photobot-infra
+          path: photobot-infra
+          token: ${{ secrets.GIT_CLONE_TOKEN }}
+
+      - name: Contract check
+        run: |
+          cd photobot-infra
+          test -f "${{ github.workspace }}/auth-service.env-contract"
+          go run ./cmd/configctl -service auth-service -service-contract "${{ github.workspace }}/auth-service.env-contract" contract-check

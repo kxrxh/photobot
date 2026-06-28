@@ -1,0 +1,14 @@
+.venv
+.git
+__pycache__
+.pytest_cache
+.ruff_cache
+*.pyc
+*.pyo
+.env
+.env.*
+compose.env
+compose.yml
+Makefile
+README.md
+tests

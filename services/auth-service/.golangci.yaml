@@ -1,0 +1,42 @@
+version: "2"
+
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+    - golines
+linters:
+  exclusions:
+    rules:
+      - linters:
+          - gosec
+        text: "G117"
+      - path: "(.+)_test\\.go$"
+        linters:
+          - gosec
+        text: "G101"
+  enable:
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+    - misspell
+    - unconvert
+    - unparam
+    - gocritic
+    - contextcheck
+    - gosec
+    - usestdlibvars
+    - thelper
+    - iface
+    - intrange
+    - nakedret
+    - perfsprint
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

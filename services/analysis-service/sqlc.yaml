@@ -1,0 +1,50 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    schema:
+      - "databases/kalibr/schema.sql"
+    queries:
+      - "databases/kalibr/queries/analysis.sql"
+    gen:
+      go:
+        package: "kalibr"
+        sql_package: "pgx/v5"
+        out: "internal/repository/kalibr"
+        emit_json_tags: false
+        emit_prepared_queries: true
+        emit_interface: false
+        emit_pointers_for_null_types: true
+        rename:
+          analysis_new: Analysis
+        overrides:
+          - column: "analysis_new.date_time"
+            go_type: "time.Time"
+          - column: "analysis_new.id"
+            go_type:
+              import: "github.com/google/uuid"
+              package: "uuid"
+              type: "UUID"
+          - column: "analysis_new.analysis_params"
+            go_type:
+              import: "csort.ru/analysis-service/internal/params"
+              package: "params"
+              type: "Params"
+              pointer: true
+        emit_exact_table_names: false
+        emit_empty_slices: true
+  - engine: "postgresql"
+    schema:
+      - "databases/requests/schema.sql"
+    queries:
+      - "databases/requests/queries/*.sql"
+    gen:
+      go:
+        package: "requests"
+        sql_package: "pgx/v5"
+        out: "internal/repository/requests"
+        emit_json_tags: false
+        emit_prepared_queries: true
+        emit_interface: false
+        emit_pointers_for_null_types: true
+        emit_exact_table_names: false
+        emit_empty_slices: true

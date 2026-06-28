@@ -1,0 +1,26 @@
+# Repository metadata
+.git
+.gitignore
+
+# Local preview / dummy PDF pipeline (not used by cmd/api image)
+cmd/dummypdf/
+local-preview/
+preview-assets/
+
+# Sample payloads at module root
+a.json
+c.json
+
+# Tooling and scripts (not part of go build in Dockerfile)
+.golangci.yaml
+scripts/
+
+# API contracts — not copied into this image
+contracts/
+
+# Test-only fixtures (go build does not need them)
+**/testdata/
+
+# Junk
+**/.DS_Store
+**/*~
