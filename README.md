@@ -18,7 +18,7 @@
 
 | Слой | Технологии |
 |------|------------|
-| **Backend** | Go 1.25+, [Fiber v3](https://gofiber.io/) |
+| **Backend** | Go 1.25+, [Fiber v3](https://gofiber.io/), sqlc |
 | **Frontend** | TypeScript, React, Vite, TanStack Router, Tailwind CSS, Bun / Node.js 20+ |
 | **Базы данных** | PostgreSQL (транзакционные БД), Redis (кэш, rate limiting, pub/sub для WS) |
 | **Брокер сообщений** | RabbitMQ (асинхронный конвейер обработки задач) |
