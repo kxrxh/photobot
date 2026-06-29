@@ -1,0 +1,17 @@
+services:
+  admin-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_HOST: ${VITE_HOST}
+        VITE_AUTH_API_URL: ${VITE_AUTH_API_URL}
+    ports:
+      - 6060:4000
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:4000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
